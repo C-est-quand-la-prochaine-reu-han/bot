@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from websockets.asyncio.client import connect
+import os
 import asyncio
 import time
 from Bot import Bot
@@ -25,12 +26,14 @@ async def updateData(data):
 async def getMessage(websocket):
 	while True:
 		message = await websocket.recv()
-		#print(message)
 		data = message.split(":")
 		await updateData(data)
 
 async def main():
-	uri = "ws://localhost:8765"
+	hostname = os.environ.get("HOSTNAME")
+	port = os.environ.get("PORT")
+	uri = "wss://" + hostname + ":" + port + "/pong/"
+
 	async with connect(uri) as websocket:
 
 		await websocket.send(bot.name)
