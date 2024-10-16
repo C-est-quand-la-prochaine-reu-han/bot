@@ -4,8 +4,7 @@ import time
 from utils import Data
 
 class PongBot:
-	def __init__(self, name):
-		self.name = name
+	def __init__(self):
 		self.opponent = ""
 		self.play_side = 0
 		self.bot_view = Data()		# View for predictions
