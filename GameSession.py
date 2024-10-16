@@ -36,11 +36,6 @@ class GameSession:
 
     async def handle_game(self):
         try:
-            await self.websocket.send("BOT")
-            message = await self.websocket.recv()
-            if message != "start":
-                raise RuntimeError(f"Didn't received start message, instead received {message}")
-
             message = await self.websocket.recv()
             data = message.split(":")
             if data[0] != "opponent":
