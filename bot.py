@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import sys
 import ssl
 import asyncio
 import signal
@@ -19,13 +20,13 @@ async def main():
     while True:
         websocket = await connect(uri, ssl=ssl_context)
         await websocket.send("*")
-        await websocket.send("BOT")
+        await websocket.send("ThisIsASuperStrongAndSolidToken:3")
         message = await websocket.recv()
         if message != "start":
             raise RuntimeError(f"Didn't received start message, instead received {message}")
         new_session = asyncio.create_task(GameSession(websocket).handle_game())
         sessions.append(new_session)
-        print("Started new game session number {len(sessions)}")
+        print("Started new game session number {len(sessions)}", file=sys.stderr)
 
 if __name__ == "__main__":
     asyncio.run(main())
