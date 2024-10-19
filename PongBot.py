@@ -10,7 +10,7 @@ class PongBot:
 		self.bot_view = Data()		# View for predictions
 		self.real_data = Data()		# Actual data from WebSocket
 		self.last_update_time = 0	# Timestamp of the last real update
-		self.reaction_time = 0.5	# Reaction delay
+		#self.reaction_time = 0.5	# Reaction delay
 
 	def calculateNextMove(self):
 		current_time = time.time()
@@ -25,20 +25,10 @@ class PongBot:
 		# WAIT: If the ball is heading towards the opponent, no need to move
 		if not self.isBallHeadingToUs():
 			return
-
-		'''
-		# ESTIMATE: The ball is returning, but exact position is unknown, add reaction delay
-        #           -> lance un timer, quand il sera fini on bouge (temps de reaction du joueur)
-		if self.isBallHeadingToUs() and current_time - self.last_update_time < self.reaction_time:
-			return
-		'''
-
+			
 		# PLAY: The ball is returning, move accordingly
 		if self.isBallHeadingToUs():
-			if self.isTrajectoryComplex():
-				return self.moveToCenter()
-			else:
-				return self.moveToBall()
+			return self.moveToBall()
 
 
 	def isBallHeadingToUs(self):
@@ -82,19 +72,12 @@ class PongBot:
 		self.bot_view.ball_pos.x = int(self.bot_view.ball_pos.x + self.bot_view.ball_speed.x * delay_until_collision)
 		self.bot_view.ball_pos.y = int(self.bot_view.ball_pos.y + self.bot_view.ball_speed.y * delay_until_collision)
 
-
-	def isTrajectoryComplex(self):
-		"""Check if the ball's trajectory is complex, e.g., many bounces."""
-		#How to check the nmber of bounces ?
-		return False
-
-
-	def moveToCenter(self):
-		if self.bot_view.bot_paddle_pos.y + 50 < 500:
-			return "down"
-		elif self.bot_view.bot_paddle_pos.y + 50 > 500:
-			return "up"
-		return
+	#def moveToCenter(self):
+	#	if self.bot_view.bot_paddle_pos.y + 50 < 500:
+	#		return "down"
+	#	elif self.bot_view.bot_paddle_pos.y + 50 > 500:
+	#		return "up"
+	#	return
 
 	def moveToBall(self):
 		if abs(self.bot_view.ball_pos.y - (self.bot_view.bot_paddle_pos.y + 50)) < 30:

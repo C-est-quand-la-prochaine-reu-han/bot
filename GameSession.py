@@ -55,7 +55,7 @@ class GameSession:
                 next_move = self.bot.calculateNextMove()
                 if next_move is not None:
                     await self.websocket.send(next_move)
-                await asyncio.sleep(0.1)
+                await asyncio.sleep(0.05)
 
         except asyncio.CancelledError:
             print(f"Game session cancelled.")

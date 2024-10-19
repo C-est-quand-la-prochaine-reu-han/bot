@@ -18,6 +18,7 @@ async def main():
     ssl_context.verify_mode = ssl.CERT_NONE
     while True:
         websocket = await connect(uri, ssl=ssl_context)
+        await websocket.send("*")
         await websocket.send("BOT")
         message = await websocket.recv()
         if message != "start":
