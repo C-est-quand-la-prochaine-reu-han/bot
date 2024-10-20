@@ -20,7 +20,7 @@ async def main():
     while True:
         websocket = await connect(uri, ssl=ssl_context)
         await websocket.send("*")
-        await websocket.send("ThisIsASuperStrongAndSolidToken:3")
+        await websocket.send(str(os.environ.get("BOT_TOKEN")))
         message = await websocket.recv()
         if message != "start":
             raise RuntimeError(f"Didn't received start message, instead received {message}")
